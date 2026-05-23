@@ -1,0 +1,17 @@
+FROM python:3.11-slim AS deps
+WORKDIR /build
+RUN pip install --no-cache-dir fastapi uvicorn sqlalchemy alembic pydantic httpx python-dotenv
+COPY . .
+
+FROM python:3.11-slim AS runtime
+RUN groupadd -r aquaqe && useradd -r -g aquaqe aquaqe
+WORKDIR /app
+COPY --from=deps /usr/local/lib/python3.11 /usr/local/lib/python3.11
+COPY --from=deps /usr/local/bin /usr/local/bin
+COPY --from=deps /build .
+RUN mkdir -p /app/data /app/logs && chown -R aquaqe:aquaqe /app
+USER aquaqe
+CMD ["sh", "-c", "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --workers 1"]
+EXPOSE 8000
+LABEL org.opencontainers.image.title="AQuA-QE API"
+LABEL org.opencontainers.image.version="0.1.0"
