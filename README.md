@@ -1,160 +1,181 @@
 # AQuA-QE System
 
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![AI](https://img.shields.io/badge/AI-Native-purple?style=for-the-badge&logo=openai&logoColor=white)
+![Architecture](https://img.shields.io/badge/Architecture-DDD%20%7C%20Clean%20Architecture-black?style=for-the-badge)
+![Tests](https://img.shields.io/badge/Tests-Pytest-success?style=for-the-badge&logo=pytest)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+
+![GitHub Repo stars](https://img.shields.io/github/stars/dufelizardo/AQuA-QE?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/dufelizardo/AQuA-QE?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/dufelizardo/AQuA-QE?style=for-the-badge)
+
+## ![visitors](https://visitor-badge.laobi.icu/badge?page_id=dufelizardo/AQuA-QE.visitor-badge)
+
+</div>
+
+---
+
 **AI-Native Requirements Engineering & Quality Platform**
 
-> Transforma informações não estruturadas em requisitos rastreáveis, validados, testáveis e acessíveis ao longo de todo o SDLC.
+> Transforms unstructured information into traceable, validated, testable, and accessible requirements throughout the entire SDLC.
 
 ---
 
-## O que é o AQuA-QE?
+## What is AQuA-QE?
 
-O AQuA-QE é uma plataforma orientada ao ciclo de vida de software que substitui o processo manual de engenharia de requisitos por um pipeline cognitivo assistido por IA. A partir de texto livre — atas de reunião, histórias de usuário, transcrições, documentos — o sistema extrai requisitos estruturados, valida sua qualidade, detecta ambiguidades, gera cenários BDD, verifica conformidade WCAG e mantém rastreabilidade bidirecional completa entre todos os artefatos.
+AQuA-QE is a software lifecycle-oriented platform that replaces the manual requirements engineering process with an AI-assisted cognitive pipeline. From free-form text — meeting notes, user stories, transcripts, and documents — the system extracts structured requirements, validates their quality, detects ambiguities, generates BDD scenarios, verifies WCAG compliance, and maintains complete bidirectional traceability across all artifacts.
 
-**Capacidades do MVP:**
+**MVP Capabilities:**
 
-- Elicitação guiada via interface conversacional
-- Extração e classificação de requisitos (RF, RNF, RN, Constraint, Assumption)
-- Validação semântica com score de qualidade em 4 dimensões
-- Geração automática de cenários BDD com técnicas formais (equivalência, valor limite, tabela de decisão)
-- Rastreabilidade bidirecional: requisito ↔ AC ↔ teste ↔ regra de negócio
-- Análise de acessibilidade WCAG 2.1/2.2 (A, AA, AAA) com heurísticas Nielsen
-- Quality gate consolidado com 7 dimensões e políticas configuráveis
-- Memória organizacional com aprendizado incremental de padrões
-- Modo mock sem API keys — pipeline completo funciona para desenvolvimento
+* Guided elicitation through a conversational interface
+* Requirement extraction and classification (FR, NFR, BR, Constraint, Assumption)
+* Semantic validation with a 4-dimensional quality score
+* Automatic BDD scenario generation using formal techniques (equivalence partitioning, boundary value analysis, decision tables)
+* Bidirectional traceability: requirement ↔ AC ↔ test ↔ business rule
+* WCAG 2.1/2.2 accessibility analysis (A, AA, AAA) with Nielsen heuristics
+* Consolidated quality gate with 7 dimensions and configurable policies
+* Organizational memory with incremental pattern learning
+* Mock mode without API keys — full pipeline works for development
 
 ---
 
-## Início rápido
+## Quick Start
 
-### Pré-requisitos
+### Prerequisites
 
-- Python 3.11+
-- pip ou [Poetry](https://python-poetry.org/)
-- Node.js 20+ (apenas para o frontend)
+* Python 3.11+
+* pip or [Poetry](https://python-poetry.org/?utm_source=chatgpt.com)
+* Node.js 20+ (frontend only)
 
-### 1. Clonar e instalar
+### 1. Clone and install
 
 ```bash
-git clone https://github.com/sua-org/aqua-qe.git
+git clone https://github.com/your-org/aqua-qe.git
 cd aqua-qe
 
-# Opção A — pip direto
+# Option A — direct pip
 pip install fastapi uvicorn sqlalchemy alembic pydantic httpx python-dotenv
 
-# Opção B — poetry
+# Option B — poetry
 poetry install
 ```
 
-### 2. Configurar variáveis de ambiente
+### 2. Configure environment variables
 
 ```bash
 cp .env.example .env
 ```
 
-Edite `.env` e configure ao menos uma das chaves:
+Edit `.env` and configure at least one key:
 
 ```env
-ANTHROPIC_API_KEY=sk-ant-...   # Claude (preferido)
-OPENAI_API_KEY=sk-proj-...     # OpenAI (fallback automático)
+ANTHROPIC_API_KEY=sk-ant-...   # Claude (preferred)
+OPENAI_API_KEY=sk-proj-...     # OpenAI (automatic fallback)
 ```
 
-> **Sem API keys?** O sistema opera em **modo mock** — respostas JSON fixas são retornadas. O pipeline completo funciona para desenvolvimento e testes.
+> **No API keys?** The system operates in **mock mode** — fixed JSON responses are returned. The complete pipeline still works for development and testing.
 
-### 3. Inicializar o banco
+### 3. Initialize the database
 
 ```bash
-# Cria as 19 tabelas SQLite
+# Creates the 19 SQLite tables
 python -c "
 from persistence.base import build_engine, create_all_tables
 create_all_tables(build_engine())
-print('Banco inicializado.')
+print('Database initialized.')
 "
 
-# Ou via Alembic (recomendado para produção)
+# Or via Alembic (recommended for production)
 alembic upgrade head
 ```
 
-### 4. Iniciar a API
+### 4. Start the API
 
 ```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Acesse:
-- **API**: http://localhost:8000
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
+Access:
+
+* **API**: [http://localhost:8000](http://localhost:8000)
+* **Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
+* **ReDoc**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---
 
 ## Docker
 
 ```bash
-# Copiar e configurar variáveis
+# Copy and configure environment variables
 cp .env.example .env
-# Editar .env com suas API keys
+# Edit .env with your API keys
 
-# Subir API + Frontend
+# Start API + Frontend
 docker compose up -d --build
 
-# Verificar status
+# Check status
 docker compose ps
 docker compose logs -f api
 ```
 
-Serviços:
-- **API**: http://localhost:8000
-- **Frontend**: http://localhost:3000
+Services:
+
+* **API**: [http://localhost:8000](http://localhost:8000)
+* **Frontend**: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Testes
+## Tests
 
 ```bash
-# Suite completa (60 testes)
+# Full suite (60 tests)
 ANTHROPIC_API_KEY=mock OPENAI_API_KEY=mock \
 python -m pytest tests/ -v
 
-# Por camada
-python -m pytest tests/unit/       # invariantes de domínio
-python -m pytest tests/integration/ # pipeline de elicitação
-python -m pytest tests/api/        # endpoints HTTP
+# By layer
+python -m pytest tests/unit/        # domain invariants
+python -m pytest tests/integration/ # elicitation pipeline
+python -m pytest tests/api/         # HTTP endpoints
 
-# Com cobertura
+# With coverage
 python -m pytest tests/ --cov=. --cov-report=term-missing
 ```
 
 ---
 
-## Endpoints da API
+## API Endpoints
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `GET`  | `/health` | Health check |
-| `POST` | `/api/v1/requirements/projects` | Criar projeto |
-| `POST` | `/api/v1/requirements/projects/{id}/elicit` | Elicitar requisitos via LLM |
-| `PATCH`| `/api/v1/requirements/{id}/refine` | Refinar requisito |
-| `POST` | `/api/v1/requirements/{id}/approve` | Aprovar requisito |
-| `POST` | `/api/v1/requirements/projects/{id}/approve-all` | Aprovação em lote |
-| `GET`  | `/api/v1/requirements/projects/{id}` | Listar requisitos do projeto |
+| Method  | Endpoint                                         | Description                 |
+| ------- | ------------------------------------------------ | --------------------------- |
+| `GET`   | `/health`                                        | Health check                |
+| `POST`  | `/api/v1/requirements/projects`                  | Create project              |
+| `POST`  | `/api/v1/requirements/projects/{id}/elicit`      | Elicit requirements via LLM |
+| `PATCH` | `/api/v1/requirements/{id}/refine`               | Refine requirement          |
+| `POST`  | `/api/v1/requirements/{id}/approve`              | Approve requirement         |
+| `POST`  | `/api/v1/requirements/projects/{id}/approve-all` | Bulk approval               |
+| `GET`   | `/api/v1/requirements/projects/{id}`             | List project requirements   |
 
-### Exemplo de uso
+### Usage Example
 
 ```bash
-# 1. Criar projeto
+# 1. Create project
 curl -X POST http://localhost:8000/api/v1/requirements/projects \
   -H "Content-Type: application/json" \
-  -d '{"name": "Sistema Bancário", "domain": "financeiro"}'
+  -d '{"name": "Banking System", "domain": "financial"}'
 
-# 2. Elicitar requisitos a partir de texto livre
+# 2. Elicit requirements from free-form text
 curl -X POST http://localhost:8000/api/v1/requirements/projects/{project_id}/elicit \
   -H "Content-Type: application/json" \
   -d '{
-    "raw_input": "O usuário deve fazer login com CPF e senha. Após 3 tentativas incorretas, a conta deve ser bloqueada por 30 minutos.",
-    "language": "pt"
+    "raw_input": "The user must log in using CPF and password. After 3 incorrect attempts, the account must be locked for 30 minutes.",
+    "language": "en"
   }'
 
-# 3. Aprovar requisito
+# 3. Approve requirement
 curl -X POST http://localhost:8000/api/v1/requirements/{req_id}/approve \
   -H "Content-Type: application/json" \
   -d '{"approved_by": "tech-lead"}'
@@ -162,35 +183,35 @@ curl -X POST http://localhost:8000/api/v1/requirements/{req_id}/approve \
 
 ---
 
-## Estrutura do projeto
+## Project Structure
 
-```
+```text
 aqua-qe/
-├── main.py                    # Entry point FastAPI
-├── persistence/base.py        # Engine SQLAlchemy, sessão, Base declarativa
+├── main.py                    # FastAPI entry point
+├── persistence/base.py        # SQLAlchemy engine, session, declarative Base
 ├── shared/
 │   ├── event_bus.py           # IEventBus + InProcessEventBus
-│   └── wiring.py              # Container de dependências (todos os contextos)
+│   └── wiring.py              # Dependency container (all contexts)
 │
-├── requirements/              # Contexto upstream — fonte de verdade
+├── requirements/              # Upstream context — source of truth
 │   ├── contracts/             # RequirementSnapshot, IRequirementReader, events
-│   ├── domain/                # Entidades, value objects (QualityScore, RequirementVersion)
+│   ├── domain/                # Entities, value objects (QualityScore, RequirementVersion)
 │   ├── application/           # CreateRequirement, RefineRequirement, ApproveRequirement
-│   └── infrastructure/        # Models SQLAlchemy, Repository, Reader, Mappers
+│   └── infrastructure/        # SQLAlchemy models, Repository, Reader, Mappers
 │
-├── validation/                # Valida semântica + heurísticas
-├── testing/                   # Gera BDD com técnicas formais
-├── traceability/              # Rastreabilidade bidirecional (BFS)
-├── accessibility/             # WCAG 2.1/2.2 + heurísticas Nielsen
-├── quality/                   # Quality gate — agrega todos os contextos
-├── knowledge/                 # Memória organizacional + ACL
+├── validation/                # Semantic validation + heuristics
+├── testing/                   # Generates BDD using formal techniques
+├── traceability/              # Bidirectional traceability (BFS)
+├── accessibility/             # WCAG 2.1/2.2 + Nielsen heuristics
+├── quality/                   # Quality gate — aggregates all contexts
+├── knowledge/                 # Organizational memory + ACL
 ├── ai_gateway/                # Claude + OpenAI + router + fallback + ACL
 │
 ├── api/requirements/          # FastAPI router + Pydantic schemas
 ├── tests/
-│   ├── unit/                  # Domínio puro (sem I/O)
-│   ├── integration/           # Pipeline completo
-│   └── api/                   # Contratos HTTP
+│   ├── unit/                  # Pure domain (no I/O)
+│   ├── integration/           # Full pipeline
+│   └── api/                   # HTTP contracts
 │
 ├── migrations/                # Alembic env.py + versions/
 ├── Dockerfile.api
@@ -202,87 +223,87 @@ aqua-qe/
 
 ---
 
-## Comandos make
+## Make Commands
 
 ```bash
-make dev          # Inicia API com reload
-make test         # Suite completa
-make test-unit    # Apenas unitários
-make test-int     # Apenas integração
-make test-api     # Apenas API HTTP
+make dev          # Starts API with reload
+make test         # Full suite
+make test-unit    # Unit tests only
+make test-int     # Integration tests only
+make test-api     # HTTP API tests only
 make lint         # Ruff check
-make db-upgrade   # Aplica migrations
-make db-migrate MSG="desc"  # Gera nova migration
-make db-reset     # Reseta banco (dev)
-make docker       # Sobe via docker compose
-make docker-down  # Para containers
-make docker-logs  # Acompanha logs
+make db-upgrade   # Apply migrations
+make db-migrate MSG="desc"  # Generate new migration
+make db-reset     # Reset database (dev)
+make docker       # Start via docker compose
+make docker-down  # Stop containers
+make docker-logs  # Follow logs
 make clean        # Remove cache
 ```
 
 ---
 
-## Configuração avançada
+## Advanced Configuration
 
-### Variáveis de ambiente completas
+### Full Environment Variables
 
-| Variável | Padrão | Descrição |
-|----------|--------|-----------|
-| `ANTHROPIC_API_KEY` | — | Chave Claude (preferido para extração/validação/geração) |
-| `OPENAI_API_KEY` | — | Chave OpenAI (fallback automático + scoring) |
-| `DATABASE_URL` | `sqlite:///./aqua_qe.db` | URL do banco (SQLite no MVP) |
-| `LOG_LEVEL` | `INFO` | Nível de log (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
-| `CORS_ORIGINS` | `*` | Origens permitidas para o frontend |
-| `NEXT_PUBLIC_API_URL` | `http://localhost:8000` | URL da API acessível pelo browser |
-| `ENV` | `production` | Ambiente (`development`, `production`) |
+| Variable              | Default                  | Description                                                     |
+| --------------------- | ------------------------ | --------------------------------------------------------------- |
+| `ANTHROPIC_API_KEY`   | —                        | Claude API key (preferred for extraction/validation/generation) |
+| `OPENAI_API_KEY`      | —                        | OpenAI API key (automatic fallback + scoring)                   |
+| `DATABASE_URL`        | `sqlite:///./aqua_qe.db` | Database URL (SQLite in MVP)                                    |
+| `LOG_LEVEL`           | `INFO`                   | Log level (`DEBUG`, `INFO`, `WARNING`, `ERROR`)                 |
+| `CORS_ORIGINS`        | `*`                      | Allowed frontend origins                                        |
+| `NEXT_PUBLIC_API_URL` | `http://localhost:8000`  | API URL accessible by browser                                   |
+| `ENV`                 | `production`             | Environment (`development`, `production`)                       |
 
-### Roteamento LLM
+### LLM Routing
 
-O AI Gateway roteia automaticamente por tipo de operação:
+The AI Gateway automatically routes by operation type:
 
-| Operação | Provider padrão | Fallback |
-|----------|----------------|---------|
-| Extração de requisitos | Claude | OpenAI |
-| Validação semântica | Claude | OpenAI |
-| Geração de testes BDD | Claude | OpenAI |
-| Scoring de qualidade | OpenAI | Claude |
-| Análise WCAG | Claude | OpenAI |
+| Operation              | Default Provider | Fallback |
+| ---------------------- | ---------------- | -------- |
+| Requirement extraction | Claude           | OpenAI   |
+| Semantic validation    | Claude           | OpenAI   |
+| BDD test generation    | Claude           | OpenAI   |
+| Quality scoring        | OpenAI           | Claude   |
+| WCAG analysis          | Claude           | OpenAI   |
 
-Se nenhum provider estiver disponível, o sistema retorna respostas mock estruturadas.
+If no provider is available, the system returns structured mock responses.
 
-### Migração para PostgreSQL (Fase 2+)
+### PostgreSQL Migration (Phase 2+)
 
 ```env
-DATABASE_URL=postgresql+psycopg2://aquaqe:senha@localhost:5432/aquaqe
+DATABASE_URL=postgresql+psycopg2://aquaqe:password@localhost:5432/aquaqe
 ```
 
-Nenhuma mudança de código necessária — a camada de persistência é abstraída via repositórios.
+No code changes are required — the persistence layer is abstracted through repositories.
 
 ---
 
-## Contribuindo
+## Contributing
 
-### Adicionando um novo bounded context
+### Adding a New Bounded Context
 
-1. Criar estrutura `novo_contexto/{contracts.py, domain/, application/, infrastructure/}`
-2. Implementar `contracts.py` com DTOs, interface de serviço e eventos de domínio
-3. Criar model SQLAlchemy com prefixo de tabela (`nvc_`)
-4. Registrar model em `persistence/base.py` → `create_all_tables()`
-5. Registrar model em `migrations/env.py`
-6. Gerar migration: `make db-migrate MSG="add_novo_contexto"`
-7. Registrar handlers em `shared/wiring.py`
-8. Adicionar testes em `tests/unit/` e `tests/integration/`
+1. Create the structure `new_context/{contracts.py, domain/, application/, infrastructure/}`
+2. Implement `contracts.py` with DTOs, service interfaces, and domain events
+3. Create SQLAlchemy model with table prefix (`nvc_`)
+4. Register model in `persistence/base.py` → `create_all_tables()`
+5. Register model in `migrations/env.py`
+6. Generate migration: `make db-migrate MSG="add_new_context"`
+7. Register handlers in `shared/wiring.py`
+8. Add tests in `tests/unit/` and `tests/integration/`
 
-### Princípios de arquitetura
+### Architecture Principles
 
-- **Sem imports cruzados de domínio**: contextos se comunicam apenas via contratos (`contracts.py`), eventos de domínio ou interfaces
-- **ACL obrigatória** para `knowledge/` e `ai_gateway/` — nunca chamados diretamente
-- **Repositório é a única classe** com acesso ao banco em cada contexto
-- **Entidades de domínio são POPO** (Plain Old Python Objects) — sem imports de SQLAlchemy
-- **Handlers são funções**, não classes — retornados por factories que capturam dependências via closure
+* **No cross-domain imports**: contexts communicate only through contracts (`contracts.py`), domain events, or interfaces
+* **ACL is mandatory** for `knowledge/` and `ai_gateway/` — never called directly
+* **Repository is the only class** with database access in each context
+* **Domain entities are POPOs** (Plain Old Python Objects) — no SQLAlchemy imports
+* **Handlers are functions**, not classes — returned by factories that capture dependencies via closures
 
 ---
 
-## Licença
+## License
 
-MIT — consulte `LICENSE` para detalhes.
+MIT — see `LICENSE` for details.
